@@ -150,7 +150,7 @@
     }
     .note {
         width: 100%;
-        min-height: 65px;
+        min-height: 67px;
         position: relative;
         box-sizing: border-box;
         margin-top: 5px;
@@ -183,10 +183,12 @@
     .note__header-title {
         height: 50%;
         font: 15px Arial;
+        text-align: center;
+        color: #ffffff;
+        border: 1px solid #000;
+        background: #1975a2;
     }
-    .note__header-title:nth-child(1) {
-        text-align: center
-    }
+   
     .note__content {
         min-height: 60px;
         padding: 5px;
@@ -279,3 +281,10 @@
             opacity: 0
         }
     }
+
+@media(max-width:500px){
+    .note__header-title{
+        font:12px Arial
+    }
+    
+}
