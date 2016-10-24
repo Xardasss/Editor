@@ -152,8 +152,8 @@ var doc = document,
 
         edit.classList.add('fa-lock')
         edit.classList.add('editnode')
-
-        var currenttime = new Date().getDate() + " " + month[new Date().getMonth()] + " " + new Date().getFullYear()
+        var dat=new Date()
+    
         Time.className = "note__header-title"
         delnote.onclick = function() {
             this.parentNode.style.animation = 'animdel 0.1s ease forwards'
@@ -249,14 +249,27 @@ var doc = document,
         content.className = "note__content"
 
 
-
+function checktime(time){
+    if(time<10){
+        return "0"+time}
+        return time    
+}
+     
+        
+        
+        
         if (timeStore == null)
-            Time.innerHTML = currenttime
-        else {
+       {
+        var currenttime = dat.getDate() + " " + month[dat.getMonth()] + " " + dat.getFullYear()+"<br>"+dat.getHours()+":"+checktime(dat.getMinutes())+":"+checktime(dat.getSeconds())
+        Time.innerHTML = currenttime
+ 
+       }
+        
+        else if(timeStore!=null){
             Time.innerHTML = timeStore
             wrap.style.animation = "none"
         }
-        ObjNote["note" + idnote] = [value, currenttime]
+        ObjNote["note" + idnote] = [value, timeStore==null ? currenttime : timeStore]
         localStorage.setItem("ObjNote", JSON.stringify(ObjNote))
         nodeText.innerHTML = delsimb(value)
         content.appendChild(nodeText)
