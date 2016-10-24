@@ -25,7 +25,7 @@
         min-height: 100px;
         width: 100%;
         background: #71215c;
-        padding-bottom: 50px;
+      
     }
     .mainBlock__input {
         display: block;
@@ -288,15 +288,14 @@
     }
     
 }
+
 .footer{
-    position: absolute;
-    bottom: 0;
-    height: 50px;
-    left: 0;
+
     width: 100%;
     font: 17px Arial;
     text-align: center;
     color: aliceblue;
-    padding-top: 3px;
     box-sizing: border-box;
+    background: #71215c;
+    padding: 5px 0;
 }
