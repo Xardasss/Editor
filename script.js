@@ -22,7 +22,9 @@ var doc = document,
     content,
     objParce,
     objNoteParce,
-    index
+    index,
+    not;
+    
 
 
 
@@ -33,8 +35,10 @@ var doc = document,
     }
 
     objNoteParce = JSON.parse(localStorage.getItem("ObjNote"))
+  
     for (index in objNoteParce) {
-        createNote(objNoteParce[index][0],objNoteParce[index][1], objNoteParce[index][2])
+        not=objNoteParce[index]
+        createNote(not[0],not[1],not[2])
 
     }
 
@@ -46,14 +50,11 @@ var doc = document,
 
 
     //функция отправки формы
-    function ee() {
+    function sendform() {
         var val=fieldtext.value.trim()
- 
         if(val=="")
             return 
-      
-           
-            
+    
         findTeg(fieldtext.value)
         TagCelect = []
         tags = []
@@ -70,12 +71,12 @@ var doc = document,
 
     fieldtext.onkeydown = function(e) {
         if (e.keyCode == 13)
-            ee()
+            sendform()
     }
 
 
     send.onclick = function() {
-        ee()
+        sendform()
     }
 
 
@@ -178,25 +179,20 @@ var doc = document,
                 if (!this.parentNode.querySelector('.textNode span')) {
                     var mas = []
                     var contTag = this.parentNode.querySelector('.containerTags');
-             var t;
-                       var conttext = this.parentNode.querySelector('.textNode').innerHTML.trim();
-                   this.parentNode.querySelector('.textNode').innerHTML
+                    var t;
+                    var conttext = this.parentNode.querySelector('.textNode').innerHTML.trim();
+                    this.parentNode.querySelector('.textNode').innerHTML
                   
                   
                
                         for (var i = 0; i < contTag.children.length; i++) {
-                    mas.push(removeS(contTag.children[i].innerHTML))
-                        
-                  
-                     var reg = new RegExp(mas[i],"i");
-                            
+                        mas.push(removeS(contTag.children[i].innerHTML))
+                        var reg = new RegExp(mas[i],"i");
                            
                       if(conttext = conttext.replace(reg,"<span class='backlight' contenteditable='false' spellcheck='false'>"+mas[i]+"</span>")){
-                       
                      if(conttext.indexOf('span')>=0){
-                           t=1;
-                        
-                     }
+                           t=1;  
+                        }
                       }
                      
                    
@@ -263,13 +259,8 @@ var doc = document,
         ObjNote["note" + idnote] = [value, currenttime]
         localStorage.setItem("ObjNote", JSON.stringify(ObjNote))
         nodeText.innerHTML = delsimb(value)
-
         content.appendChild(nodeText)
-
-
-
         dates.className = "note__header-block"
-
         dates.appendChild(Time)
         wrap.className = "note"
         wrap.id = "note" + idnote
@@ -277,11 +268,8 @@ var doc = document,
         wrap.appendChild(content)
         wrap.appendChild(delnote)
         wrap.appendChild(edit)
-
         MainBlock.appendChild(wrap)
-
-
-
+        
         if (TagCelect.length != 0 && tags.length > 0)
             createtag(content, "both")
         else if (TagCelect.length != 0) {
@@ -290,8 +278,6 @@ var doc = document,
             createtag(content, "input")
         }
 
-
-
         if (mastags != null) {
 
             var tegContainer = doc.createElement('div')
@@ -299,12 +285,11 @@ var doc = document,
             tegContainer.className = "containerTags"
             var mas = []
             for (var index in mastags) {
-                var item = doc.createElement('p')
-                item.innerHTML = mastags[index]
-                item.className = "tagC"
-                tegContainer.appendChild(item)
-                mas.push(mastags[index])
-
+            var item = doc.createElement('p')
+            item.innerHTML = mastags[index]
+            item.className = "tagC"
+            tegContainer.appendChild(item)
+            mas.push(mastags[index])
 
             }
 
@@ -312,12 +297,9 @@ var doc = document,
             localStorage.setItem("ObjNote", JSON.stringify(ObjNote))
             content.appendChild(tegContainer)
 
-
         }
 
-
         idnote++;
-
 
     }
 
@@ -378,9 +360,6 @@ function delsimb(value){
 
     document.onkeydown = function(e) {
 
-
-
-
         if (e.ctrlKey && e.keyCode == 66) {
             if (adds.style.display != "none" && ok.style.display != "block") {
 
@@ -416,8 +395,6 @@ function delsimb(value){
 //добавление тега
     function addTag(text, flag) {
 
-
-
         if (text === null)
             return
 
@@ -427,11 +404,9 @@ function delsimb(value){
         elem.classList.add('mainBlock__tags')
         elem.onclick = function() {
 
-
             if (elem.lastChild.value != 0 && elem.lastChild.hasAttribute("disabled")) {
                 this.classList.toggle('toggleborder')
                 if (!chekmass(TagCelect, this.lastChild.value)) {
-
                     TagCelect.push(this.lastChild.value)
                 } else
                     delmass(TagCelect, this.lastChild.value)
@@ -444,23 +419,18 @@ function delsimb(value){
         var inp = doc.createElement('input')
         inp.classList.add('mainBlock__tags__input')
         inp.setAttribute("maxlength", "25")
-
         inp.style.cursor = "auto"
         var close = doc.createElement('i')
         close.classList.add('fa')
         close.classList.add('fa-times')
-
 
         close.onclick = function(e) {
             e.stopPropagation()
             Blocktags.removeChild(this.parentNode)
             delete objStorage['tag' + this.parentNode.id]
             localStorage.setItem("obj", JSON.stringify(objStorage))
-
             ok.style.display = "none"
             adds.style.display = "block"
-
-
             delmass(TagCelect, this.parentNode.lastChild.value)
         }
 
@@ -477,7 +447,6 @@ function delsimb(value){
 
         adds.style.display = "none"
 
-
         if (text != null && text != "") {
 
             inp.value = text
@@ -488,7 +457,6 @@ function delsimb(value){
         }
 
         function okSet(that) {
-
 
             inp.setAttribute("disabled", "")
             inp.style.cursor = "pointer"
@@ -515,15 +483,12 @@ function delsimb(value){
 
         inp.onkeydown = function(e) {
 
-
             if (e.keyCode == 13 && Blocktags.children[Blocktags.children.length - 1].children[1].value != 0) {
                 okSet(this)
 
             }
 
-
         }
-
 
 
 
@@ -537,9 +502,6 @@ function delsimb(value){
 
                 }
 
-
-
-
             } else {
                 ok.classList.remove('changeColor')
 
@@ -548,12 +510,7 @@ function delsimb(value){
                     inp.focus()
                 }
             }
-
         }
-
-
-
-
     }
 
 
@@ -568,23 +525,18 @@ function delsimb(value){
 
 //живой поиск
 
-    function findTegsInput(value) {
-        
-       
+    function findTegsInput(value) { 
         value=value.trim()
-      
         var masCon = doc.getElementsByClassName('containerTags')
         var masnote = doc.getElementsByClassName('note')
          if(value!=0){
-        var reg = new RegExp("\^\\"+value,"i");
+      
+              var reg = new RegExp(value,"i");
          }
         for (var i = 0; i < masnote.length; i++) {
             masnote[i].style.display = "none"
             masnote[i].style.animation = "none"
         }
-
-
-
 
         for (var i = 0; i < masCon.length; i++) {
 
@@ -593,13 +545,7 @@ function delsimb(value){
                 if (removeS(masCon[i].children[j].innerHTML).search(reg) == 0) {
                     masCon[i].parentNode.parentNode.style.display = "block"
                 }
-
-
-
-
             }
-
-
 
         }
 
@@ -607,16 +553,8 @@ function delsimb(value){
             for (var i = 0; i < masnote.length; i++) {
                 masnote[i].style.display = "block"
             }
-
-
-
         }
-
-
-
-
-    }
-    
+    }    
 }
 
 var myEditor=new Editor();
